@@ -1,0 +1,4 @@
+/usr/local/bin/xwd
+/usr/local/bin/xwdctl
+/usr/local/lib/systemd/user/xwd.service
+/usr/local/etc/sv/xwd/run

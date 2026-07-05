@@ -1,0 +1,9 @@
+[Unit]
+Description=XWallpaper daemon
+
+[Service]
+ExecStart=@CMAKE_INSTALL_PREFIX@/bin/xwd
+Restart=on-failure
+
+[Install]
+WantedBy=default.target

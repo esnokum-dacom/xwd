@@ -1,0 +1,1 @@
+/usr/bin/c++ -O3 -DNDEBUG -Wl,--dependency-file=CMakeFiles/xwdctl.dir/link.d CMakeFiles/xwdctl.dir/src/xwdctl.cpp.o -o bin/xwdctl

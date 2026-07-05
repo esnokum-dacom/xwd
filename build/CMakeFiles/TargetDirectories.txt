@@ -1,0 +1,8 @@
+/home/onu/dev/xwd/build/CMakeFiles/xwd.dir
+/home/onu/dev/xwd/build/CMakeFiles/xwdctl.dir
+/home/onu/dev/xwd/build/CMakeFiles/edit_cache.dir
+/home/onu/dev/xwd/build/CMakeFiles/rebuild_cache.dir
+/home/onu/dev/xwd/build/CMakeFiles/list_install_components.dir
+/home/onu/dev/xwd/build/CMakeFiles/install.dir
+/home/onu/dev/xwd/build/CMakeFiles/install/local.dir
+/home/onu/dev/xwd/build/CMakeFiles/install/strip.dir

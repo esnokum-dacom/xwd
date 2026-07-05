@@ -1,0 +1,7 @@
+{
+	"InstallScripts" : 
+	[
+		"/home/onu/dev/xwd/build/cmake_install.cmake"
+	],
+	"Parallel" : false
+}
