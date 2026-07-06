@@ -34,7 +34,8 @@ Then control it with xwdctl
 xwdctl -h | --help
 ```
 
-
+[Example video (I don't know what happened with the format)](https://github.com/esnokum-dacom/xwd/blob/main/output.mp4)
+// Use mpv or something while I install OBS
 
 # FEATURES
 - Runtime control via IPC without ever needing to restart the daemon
