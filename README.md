@@ -29,9 +29,19 @@ First, start the daemon by running:
 xwd
 ```
 
-Then control it with xwdctl
+To set a live wallpaper you can put 
 ```
-xwdctl -h | --help
+xwdctl SET <PATH (IMG/MP4/GIF)>
+```
+
+If you want to put in a monitor one live wallpaper you can with
+```
+xwdctl VIDEO <MON_INDEX> <PATH (IMG/MP4/GIF)>
+```
+
+To know the monitor index you can
+```
+xwdctl MONITORS
 ```
 
 [Example video (I don't know what happened with the format)](https://github.com/esnokum-dacom/xwd/blob/main/output.mp4)
@@ -41,10 +51,6 @@ xwdctl -h | --help
 - Runtime control via IPC without ever needing to restart the daemon
 - Can play videos, GIFs, and static images.
 - Runtime pause and play commands
-
-# TO DO 
-- Hardware acceleration.
-- Multi-monitor support (I'm not sure if it works properly in more than 1 monitor)
 
 # Limitations
 No Hardware acceleration. XCB is so powerful but still limited; if I research a little bit more, I can probably implement this for images, videos, gifs, etc. And improve the performance
