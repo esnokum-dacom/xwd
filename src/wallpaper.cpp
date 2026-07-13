@@ -78,6 +78,35 @@ void Wallpaper_t::set_root_at(xcb_pixmap_t pmap) {
     set_root_pmap(ctx_.conn(), ctx_.root(), pmap);
 }
 
+void Wallpaper_t::ensure_pixmap() {
+    if (current_pix) return;
+
+    uint32_t w = ctx_.screen()->width_in_pixels;
+    uint32_t h = ctx_.screen()->height_in_pixels;
+
+    xcb_pixmap_t pmap = xcb_generate_id(ctx_.conn());
+    xcb_void_cookie_t pmap_cookie = xcb_create_pixmap_checked(
+        ctx_.conn(), ctx_.screen()->root_depth, pmap, ctx_.root(), w, h);
+    check_cookie(ctx_.conn(), pmap_cookie, "create_pixmap");
+
+    xcb_gcontext_t gc = xcb_generate_id(ctx_.conn());
+    uint32_t black = ctx_.screen()->black_pixel;
+    xcb_void_cookie_t gc_cookie = xcb_create_gc_checked(
+        ctx_.conn(), gc, pmap, XCB_GC_FOREGROUND, &black);
+    check_cookie(ctx_.conn(), gc_cookie, "create_gc");
+
+    xcb_rectangle_t rect = {0, 0, static_cast<uint16_t>(w), static_cast<uint16_t>(h)};
+    xcb_poly_fill_rectangle(ctx_.conn(), pmap, gc, 1, &rect);
+    xcb_free_gc(ctx_.conn(), gc);
+
+    xcb_change_window_attributes(ctx_.conn(), ctx_.root(), XCB_CW_BACK_PIXMAP, &pmap);
+    xcb_clear_area(ctx_.conn(), 0, ctx_.root(), 0, 0, w, h);
+    set_root_at(pmap);
+    xcb_flush(ctx_.conn());
+
+    current_pix = pmap;
+}
+
 void Wallpaper_t::set(const std::string &path, ScaleMode mode) {
     ImgBuf img = load_img(path);
 

@@ -46,12 +46,24 @@ CMakeFiles/xwd.dir/src/ipc_server.cpp.o: \
  /usr/include/bits/waitstatus.h /usr/include/bits/floatn.h \
  /usr/include/bits/floatn-common.h /usr/include/alloca.h \
  /usr/include/bits/stdlib-bsearch.h /usr/include/bits/stdlib-float.h \
- /usr/include/c++/14.2/bits/std_abs.h /usr/include/c++/14.2/cerrno \
- /usr/include/errno.h /usr/include/bits/errno.h \
- /usr/include/linux/errno.h /usr/include/asm/errno.h \
- /usr/include/asm-generic/errno.h /usr/include/asm-generic/errno-base.h \
- /usr/include/bits/types/error_t.h /usr/include/c++/14.2/stdexcept \
- /usr/include/c++/14.2/exception /usr/include/c++/14.2/bits/exception.h \
+ /usr/include/c++/14.2/bits/std_abs.h /usr/include/c++/14.2/cctype \
+ /usr/include/ctype.h /usr/include/c++/14.2/cerrno /usr/include/errno.h \
+ /usr/include/bits/errno.h /usr/include/linux/errno.h \
+ /usr/include/asm/errno.h /usr/include/asm-generic/errno.h \
+ /usr/include/asm-generic/errno-base.h /usr/include/bits/types/error_t.h \
+ /usr/include/c++/14.2/sstream \
+ /usr/include/c++/14.2/bits/requires_hosted.h \
+ /usr/include/c++/14.2/istream /usr/include/c++/14.2/ios \
+ /usr/include/c++/14.2/iosfwd /usr/include/c++/14.2/bits/stringfwd.h \
+ /usr/include/c++/14.2/bits/memoryfwd.h \
+ /usr/include/c++/14.2/bits/postypes.h /usr/include/c++/14.2/cwchar \
+ /usr/include/wchar.h \
+ /usr/lib/gcc/x86_64-unknown-linux-gnu/14.2/include/stdarg.h \
+ /usr/include/bits/wchar.h /usr/include/bits/types/wint_t.h \
+ /usr/include/bits/types/mbstate_t.h \
+ /usr/include/bits/types/__mbstate_t.h /usr/include/bits/types/__FILE.h \
+ /usr/include/bits/types/FILE.h /usr/include/c++/14.2/exception \
+ /usr/include/c++/14.2/bits/exception.h \
  /usr/include/c++/14.2/bits/exception_ptr.h \
  /usr/include/c++/14.2/bits/exception_defines.h \
  /usr/include/c++/14.2/bits/cxxabi_init_exception.h \
@@ -59,18 +71,7 @@ CMakeFiles/xwd.dir/src/ipc_server.cpp.o: \
  /usr/include/c++/14.2/new /usr/include/c++/14.2/bits/move.h \
  /usr/include/c++/14.2/type_traits \
  /usr/include/c++/14.2/bits/nested_exception.h \
- /usr/include/c++/14.2/string \
- /usr/include/c++/14.2/bits/requires_hosted.h \
- /usr/include/c++/14.2/bits/stringfwd.h \
- /usr/include/c++/14.2/bits/memoryfwd.h \
- /usr/include/c++/14.2/bits/char_traits.h \
- /usr/include/c++/14.2/bits/postypes.h /usr/include/c++/14.2/cwchar \
- /usr/include/wchar.h \
- /usr/lib/gcc/x86_64-unknown-linux-gnu/14.2/include/stdarg.h \
- /usr/include/bits/wchar.h /usr/include/bits/types/wint_t.h \
- /usr/include/bits/types/mbstate_t.h \
- /usr/include/bits/types/__mbstate_t.h /usr/include/bits/types/__FILE.h \
- /usr/include/bits/types/FILE.h /usr/include/c++/14.2/compare \
+ /usr/include/c++/14.2/bits/char_traits.h /usr/include/c++/14.2/compare \
  /usr/include/c++/14.2/concepts \
  /usr/include/c++/14.2/bits/stl_construct.h \
  /usr/include/c++/14.2/bits/stl_iterator_base_types.h \
@@ -80,16 +81,31 @@ CMakeFiles/xwd.dir/src/ipc_server.cpp.o: \
  /usr/include/c++/14.2/bits/stl_iterator_base_funcs.h \
  /usr/include/c++/14.2/bits/concept_check.h \
  /usr/include/c++/14.2/debug/assertions.h \
+ /usr/include/c++/14.2/bits/localefwd.h \
+ /usr/include/c++/14.2/x86_64-unknown-linux-gnu/bits/c++locale.h \
+ /usr/include/c++/14.2/clocale /usr/include/locale.h \
+ /usr/include/bits/locale.h /usr/include/c++/14.2/bits/ios_base.h \
+ /usr/include/c++/14.2/ext/atomicity.h \
+ /usr/include/c++/14.2/x86_64-unknown-linux-gnu/bits/gthr.h \
+ /usr/include/c++/14.2/x86_64-unknown-linux-gnu/bits/gthr-default.h \
+ /usr/include/pthread.h /usr/include/sched.h /usr/include/bits/sched.h \
+ /usr/include/linux/sched/types.h /usr/include/linux/types.h \
+ /usr/include/asm/types.h /usr/include/asm-generic/types.h \
+ /usr/include/asm-generic/int-ll64.h \
+ /usr/include/bits/types/struct_sched_param.h /usr/include/bits/cpu-set.h \
+ /usr/include/time.h /usr/include/bits/time.h /usr/include/bits/timex.h \
+ /usr/include/bits/types/struct_tm.h \
+ /usr/include/bits/types/struct_itimerspec.h /usr/include/bits/setjmp.h \
+ /usr/include/bits/types/struct___jmp_buf_tag.h \
+ /usr/include/bits/pthread_stack_min-dynamic.h \
+ /usr/include/c++/14.2/x86_64-unknown-linux-gnu/bits/atomic_word.h \
+ /usr/include/sys/single_threaded.h \
+ /usr/include/c++/14.2/bits/locale_classes.h /usr/include/c++/14.2/string \
  /usr/include/c++/14.2/bits/allocator.h \
  /usr/include/c++/14.2/x86_64-unknown-linux-gnu/bits/c++allocator.h \
  /usr/include/c++/14.2/bits/new_allocator.h \
  /usr/include/c++/14.2/bits/functexcept.h \
  /usr/include/c++/14.2/bits/cpp_type_traits.h \
- /usr/include/c++/14.2/bits/localefwd.h \
- /usr/include/c++/14.2/x86_64-unknown-linux-gnu/bits/c++locale.h \
- /usr/include/c++/14.2/clocale /usr/include/locale.h \
- /usr/include/bits/locale.h /usr/include/c++/14.2/iosfwd \
- /usr/include/c++/14.2/cctype /usr/include/ctype.h \
  /usr/include/c++/14.2/bits/ostream_insert.h \
  /usr/include/c++/14.2/bits/cxxabi_forced.h \
  /usr/include/c++/14.2/bits/stl_iterator.h \
@@ -125,7 +141,30 @@ CMakeFiles/xwd.dir/src/ipc_server.cpp.o: \
  /usr/include/c++/14.2/bits/uses_allocator.h \
  /usr/include/c++/14.2/bits/uses_allocator_args.h \
  /usr/include/c++/14.2/tuple /usr/include/c++/14.2/bits/ranges_util.h \
- /usr/include/c++/14.2/vector \
+ /usr/include/c++/14.2/bits/locale_classes.tcc \
+ /usr/include/c++/14.2/system_error \
+ /usr/include/c++/14.2/x86_64-unknown-linux-gnu/bits/error_constants.h \
+ /usr/include/c++/14.2/stdexcept /usr/include/c++/14.2/streambuf \
+ /usr/include/c++/14.2/bits/streambuf.tcc \
+ /usr/include/c++/14.2/bits/basic_ios.h \
+ /usr/include/c++/14.2/bits/locale_facets.h /usr/include/c++/14.2/cwctype \
+ /usr/include/wctype.h /usr/include/bits/wctype-wchar.h \
+ /usr/include/c++/14.2/x86_64-unknown-linux-gnu/bits/ctype_base.h \
+ /usr/include/c++/14.2/bits/streambuf_iterator.h \
+ /usr/include/c++/14.2/x86_64-unknown-linux-gnu/bits/ctype_inline.h \
+ /usr/include/c++/14.2/bits/locale_facets.tcc \
+ /usr/include/c++/14.2/bits/basic_ios.tcc /usr/include/c++/14.2/ostream \
+ /usr/include/c++/14.2/bits/ostream.tcc \
+ /usr/include/c++/14.2/bits/istream.tcc \
+ /usr/include/c++/14.2/bits/sstream.tcc \
+ /usr/include/c++/14.2/unordered_set \
+ /usr/include/c++/14.2/bits/unordered_set.h \
+ /usr/include/c++/14.2/bits/hashtable.h \
+ /usr/include/c++/14.2/bits/hashtable_policy.h \
+ /usr/include/c++/14.2/ext/aligned_buffer.h \
+ /usr/include/c++/14.2/bits/enable_special_members.h \
+ /usr/include/c++/14.2/bits/node_handle.h \
+ /usr/include/c++/14.2/bits/erase_if.h /usr/include/c++/14.2/vector \
  /usr/include/c++/14.2/bits/stl_uninitialized.h \
  /usr/include/c++/14.2/bits/stl_vector.h \
  /usr/include/c++/14.2/bits/stl_bvector.h \
@@ -136,47 +175,16 @@ CMakeFiles/xwd.dir/src/ipc_server.cpp.o: \
  /usr/include/stdint.h /usr/include/bits/stdint-uintn.h \
  /usr/include/bits/stdint-least.h /usr/include/sys/uio.h \
  /usr/include/bits/uio_lim.h /usr/include/bits/uio-ext.h \
- /usr/include/pthread.h /usr/include/sched.h /usr/include/bits/sched.h \
- /usr/include/linux/sched/types.h /usr/include/linux/types.h \
- /usr/include/asm/types.h /usr/include/asm-generic/types.h \
- /usr/include/asm-generic/int-ll64.h \
- /usr/include/bits/types/struct_sched_param.h /usr/include/bits/cpu-set.h \
- /usr/include/time.h /usr/include/bits/time.h /usr/include/bits/timex.h \
- /usr/include/bits/types/struct_tm.h \
- /usr/include/bits/types/struct_itimerspec.h /usr/include/bits/setjmp.h \
- /usr/include/bits/types/struct___jmp_buf_tag.h \
- /usr/include/bits/pthread_stack_min-dynamic.h /usr/include/xcb/xproto.h \
- /usr/include/xcb/xcb.h /usr/include/c++/14.2/cstdint \
- /home/onu/dev/xwd/src/wallpaper.hpp /home/onu/dev/xwd/src/config.hpp \
- /home/onu/dev/xwd/src/wallpaper_v.hpp /usr/include/c++/14.2/memory \
- /usr/include/c++/14.2/bits/stl_tempbuf.h \
+ /usr/include/xcb/xproto.h /usr/include/xcb/xcb.h \
+ /usr/include/c++/14.2/cstdint /home/onu/dev/xwd/src/wallpaper.hpp \
+ /home/onu/dev/xwd/src/config.hpp /home/onu/dev/xwd/src/wallpaper_v.hpp \
+ /usr/include/c++/14.2/memory /usr/include/c++/14.2/bits/stl_tempbuf.h \
  /usr/include/c++/14.2/bits/stl_raw_storage_iter.h \
  /usr/include/c++/14.2/bits/align.h \
- /usr/include/c++/14.2/bits/unique_ptr.h /usr/include/c++/14.2/ostream \
- /usr/include/c++/14.2/ios /usr/include/c++/14.2/bits/ios_base.h \
- /usr/include/c++/14.2/ext/atomicity.h \
- /usr/include/c++/14.2/x86_64-unknown-linux-gnu/bits/gthr.h \
- /usr/include/c++/14.2/x86_64-unknown-linux-gnu/bits/gthr-default.h \
- /usr/include/c++/14.2/x86_64-unknown-linux-gnu/bits/atomic_word.h \
- /usr/include/sys/single_threaded.h \
- /usr/include/c++/14.2/bits/locale_classes.h \
- /usr/include/c++/14.2/bits/locale_classes.tcc \
- /usr/include/c++/14.2/system_error \
- /usr/include/c++/14.2/x86_64-unknown-linux-gnu/bits/error_constants.h \
- /usr/include/c++/14.2/streambuf /usr/include/c++/14.2/bits/streambuf.tcc \
- /usr/include/c++/14.2/bits/basic_ios.h \
- /usr/include/c++/14.2/bits/locale_facets.h /usr/include/c++/14.2/cwctype \
- /usr/include/wctype.h /usr/include/bits/wctype-wchar.h \
- /usr/include/c++/14.2/x86_64-unknown-linux-gnu/bits/ctype_base.h \
- /usr/include/c++/14.2/bits/streambuf_iterator.h \
- /usr/include/c++/14.2/x86_64-unknown-linux-gnu/bits/ctype_inline.h \
- /usr/include/c++/14.2/bits/locale_facets.tcc \
- /usr/include/c++/14.2/bits/basic_ios.tcc \
- /usr/include/c++/14.2/bits/ostream.tcc \
+ /usr/include/c++/14.2/bits/unique_ptr.h \
  /usr/include/c++/14.2/bits/shared_ptr.h \
  /usr/include/c++/14.2/bits/shared_ptr_base.h \
  /usr/include/c++/14.2/bits/allocated_ptr.h \
- /usr/include/c++/14.2/ext/aligned_buffer.h \
  /usr/include/c++/14.2/ext/concurrence.h \
  /usr/include/c++/14.2/bits/shared_ptr_atomic.h \
  /usr/include/c++/14.2/bits/atomic_base.h \
@@ -204,5 +212,6 @@ CMakeFiles/xwd.dir/src/ipc_server.cpp.o: \
  /usr/include/c++/14.2/bits/atomic_timed_wait.h \
  /usr/include/c++/14.2/bits/this_thread_sleep.h /usr/include/sys/time.h \
  /usr/include/semaphore.h /usr/include/bits/semaphore.h \
- /usr/include/c++/14.2/mutex /usr/include/c++/14.2/bits/unique_lock.h \
- /home/onu/dev/xwd/src/shm/shm_seg.hpp /usr/include/xcb/shm.h
+ /home/onu/dev/xwd/src/monitors.hpp /home/onu/dev/xwd/src/shm/shm_seg.hpp \
+ /usr/include/xcb/shm.h /usr/include/c++/14.2/unordered_map \
+ /usr/include/c++/14.2/bits/unordered_map.h

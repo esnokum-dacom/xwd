@@ -1,9 +1,7 @@
 #include "wallpaper_v.hpp"
-#include "root_atoms.hpp"
 #include "xcb_pxf.hpp"
 #include "shm/xcb_shm_check.hpp"
 
-#include <cstring>
 #include <xcb/shm.h>
 
 extern "C" {
@@ -18,22 +16,20 @@ extern "C" {
 
 V_Wallpaper::~V_Wallpaper() {
     stop();
-    teardown_pixmap();
     if (decode_thread_.joinable()) decode_thread_.join();
-    teardown_pixmap();
+    teardown_shm();
 }
 
 void V_Wallpaper::stop() {
     stop_flag_.store(true);
 }
 
-void V_Wallpaper::teardown_pixmap() {
+void V_Wallpaper::teardown_shm() {
     if (gc_) { xcb_free_gc(ctx_.conn(), gc_); gc_ = 0; }
-    if (pmap_) { xcb_free_pixmap(ctx_.conn(), pmap_); pmap_ = 0; }
     shm_.reset();
 }
 
-void V_Wallpaper::setup_shm_pixmap(uint16_t w, uint16_t h) {
+void V_Wallpaper::setup_shm(uint16_t w, uint16_t h) {
     if (!shm_av(ctx_.conn()))
         throw std::runtime_error("MIT-SHM not available on this X server");
 
@@ -48,25 +44,12 @@ void V_Wallpaper::setup_shm_pixmap(uint16_t w, uint16_t h) {
     h_ = h;
 
     shm_ = std::make_unique<ShmSeg>(ctx_.conn(), static_cast<size_t>(stride_) * h_);
-    pending_frame_.resize(static_cast<size_t>(stride_) * h_);
-
-    pmap_ = xcb_generate_id(ctx_.conn());
-    xcb_void_cookie_t cookie = xcb_shm_create_pixmap_checked(
-        ctx_.conn(), pmap_, ctx_.root(), w_, h_, depth_, shm_->xid(), 0);
-    xcb_generic_error_t *err = xcb_request_check(ctx_.conn(), cookie);
-    if (err) {
-        free(err);
-        throw std::runtime_error("xcb_shm_create_pixmap failed");
-    }
 
     gc_ = xcb_generate_id(ctx_.conn());
-    xcb_create_gc(ctx_.conn(), gc_, pmap_, 0, nullptr);
-
-    xcb_change_window_attributes(ctx_.conn(), ctx_.root(), XCB_CW_BACK_PIXMAP, &pmap_);
-    set_root_pmap(ctx_.conn(), ctx_.root(), pmap_);
+    xcb_create_gc(ctx_.conn(), gc_, ctx_.root(), 0, nullptr);
 }
 
-void V_Wallpaper::decode_loop(std::string path) {
+void V_Wallpaper::decode_loop(std::string path, MonInfo mon, xcb_pixmap_t target_pixmap) {
     AVFormatContext *fmt_ctx = nullptr;
     if (avformat_open_input(&fmt_ctx, path.c_str(), nullptr, nullptr) < 0) return;
     if (avformat_find_stream_info(fmt_ctx, nullptr) < 0) {
@@ -135,15 +118,19 @@ void V_Wallpaper::decode_loop(std::string path) {
                     std::this_thread::sleep_until(target_time);
                 }
 
-                {
-                    std::lock_guard<std::mutex> lock(frame_mtx_);
-                    dst_data[0] = pending_frame_.data();
-                    sws_scale(sws, frame->data, frame->linesize, 0, codec_ctx->height,
-                              dst_data, dst_linesize);
-                    frame_ready_ = true;
-                }
-
                 if (stop_flag_.load()) break;
+
+                dst_data[0] = shm_->data();
+                sws_scale(sws, frame->data, frame->linesize, 0, codec_ctx->height,
+                          dst_data, dst_linesize);
+
+                xcb_shm_put_image(ctx_.conn(), target_pixmap, gc_,
+                                   w_, h_, 0, 0, w_, h_,
+                                   mon.x, mon.y, depth_,
+                                   XCB_IMAGE_FORMAT_Z_PIXMAP, 0,
+                                   shm_->xid(), 0);
+                xcb_clear_area(ctx_.conn(), 1, ctx_.root(), mon.x, mon.y, w_, h_);
+                xcb_flush(ctx_.conn());
             }
         }
         av_packet_unref(packet);
@@ -156,12 +143,8 @@ void V_Wallpaper::decode_loop(std::string path) {
     avformat_close_input(&fmt_ctx);
 }
 
-void V_Wallpaper::play(const std::string &path) {
+void V_Wallpaper::play(const std::string &path, MonInfo mon, xcb_pixmap_t target_pixmap) {
     stop_flag_.store(false);
-    uint16_t w = ctx_.screen()->width_in_pixels;
-    uint16_t h = ctx_.screen()->height_in_pixels;
-
-    setup_shm_pixmap(w, h);
 
     xcb_visualtype_t *vis = find_vtype(ctx_.screen());
     if (!vis) throw std::runtime_error("could not resolve visual");
@@ -172,35 +155,7 @@ void V_Wallpaper::play(const std::string &path) {
     if (byte_or != XCB_IMAGE_ORDER_LSB_FIRST)
         throw std::runtime_error("unsupported byte order for video path (expected LSB-first)");
 
-    stop_flag_.store(false);
-    decode_thread_ = std::thread(&V_Wallpaper::decode_loop, this, path);
+    setup_shm(static_cast<uint16_t>(mon.w), static_cast<uint16_t>(mon.h));
 
-    const double present_interval_sec = 1.0 / 60.0;
-    using clock = std::chrono::steady_clock;
-
-    while (!stop_flag_.load()) {
-        auto tick_start = clock::now();
-
-        bool have_frame = false;
-        {
-            std::lock_guard<std::mutex> lock(frame_mtx_);
-            if (frame_ready_) {
-                std::memcpy(shm_->data(), pending_frame_.data(), pending_frame_.size());
-                frame_ready_ = false;
-                have_frame = true;
-            }
-        }
-
-        if (have_frame) {
-            xcb_clear_area(ctx_.conn(), 0, ctx_.root(), 0, 0, w_, h_);
-            xcb_flush(ctx_.conn());
-        }
-
-        auto elapsed = std::chrono::duration<double>(clock::now() - tick_start).count();
-        double remaining = present_interval_sec - elapsed;
-        if (remaining > 0)
-            std::this_thread::sleep_for(std::chrono::duration<double>(remaining));
-    }
-
-    if (decode_thread_.joinable()) decode_thread_.join();
+    decode_thread_ = std::thread(&V_Wallpaper::decode_loop, this, path, mon, target_pixmap);
 }

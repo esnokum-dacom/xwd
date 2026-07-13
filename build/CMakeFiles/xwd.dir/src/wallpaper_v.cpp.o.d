@@ -189,24 +189,22 @@ CMakeFiles/xwd.dir/src/wallpaper_v.cpp.o: \
  /usr/include/c++/14.2/bits/atomic_timed_wait.h \
  /usr/include/c++/14.2/bits/this_thread_sleep.h /usr/include/sys/time.h \
  /usr/include/semaphore.h /usr/include/bits/semaphore.h \
- /usr/include/c++/14.2/mutex /usr/include/c++/14.2/bits/unique_lock.h \
- /usr/include/c++/14.2/vector /usr/include/c++/14.2/bits/stl_vector.h \
- /usr/include/c++/14.2/bits/stl_bvector.h \
- /usr/include/c++/14.2/bits/vector.tcc \
  /home/onu/dev/xwd/src/xcb_context.hpp /usr/include/xcb/xcb.h \
  /usr/include/sys/uio.h /usr/include/bits/types/struct_iovec.h \
  /usr/include/bits/uio-ext.h /usr/include/xcb/xproto.h \
- /usr/include/xcb/xcb.h /home/onu/dev/xwd/src/shm/shm_seg.hpp \
- /usr/include/xcb/shm.h /home/onu/dev/xwd/src/root_atoms.hpp \
+ /usr/include/xcb/xcb.h /home/onu/dev/xwd/src/monitors.hpp \
+ /usr/include/c++/14.2/vector /usr/include/c++/14.2/bits/stl_vector.h \
+ /usr/include/c++/14.2/bits/stl_bvector.h \
+ /usr/include/c++/14.2/bits/vector.tcc \
+ /home/onu/dev/xwd/src/shm/shm_seg.hpp /usr/include/xcb/shm.h \
  /home/onu/dev/xwd/src/xcb_pxf.hpp \
  /home/onu/dev/xwd/src/shm/xcb_shm_check.hpp \
- /usr/include/c++/14.2/cstring /usr/include/string.h \
- /usr/include/strings.h /usr/include/libavformat/avformat.h \
- /usr/include/libavcodec/avcodec.h /usr/include/libavutil/samplefmt.h \
- /usr/include/libavutil/avutil.h /usr/include/libavutil/common.h \
- /usr/include/inttypes.h /usr/include/c++/14.2/math.h \
- /usr/include/c++/14.2/cmath /usr/include/math.h \
- /usr/include/bits/math-vector.h /usr/include/bits/libm-simd-decl-stubs.h \
+ /usr/include/libavformat/avformat.h /usr/include/libavcodec/avcodec.h \
+ /usr/include/libavutil/samplefmt.h /usr/include/libavutil/avutil.h \
+ /usr/include/libavutil/common.h /usr/include/inttypes.h \
+ /usr/include/c++/14.2/math.h /usr/include/c++/14.2/cmath \
+ /usr/include/math.h /usr/include/bits/math-vector.h \
+ /usr/include/bits/libm-simd-decl-stubs.h \
  /usr/include/bits/flt-eval-method.h /usr/include/bits/fp-logb.h \
  /usr/include/bits/fp-fast.h /usr/include/bits/mathcalls-macros.h \
  /usr/include/bits/mathcalls-helper-functions.h \
@@ -224,7 +222,8 @@ CMakeFiles/xwd.dir/src/wallpaper_v.cpp.o: \
  /usr/include/c++/14.2/tr1/poly_hermite.tcc \
  /usr/include/c++/14.2/tr1/poly_laguerre.tcc \
  /usr/include/c++/14.2/tr1/riemann_zeta.tcc \
- /usr/include/c++/14.2/stdlib.h /usr/include/libavutil/attributes.h \
+ /usr/include/c++/14.2/stdlib.h /usr/include/string.h \
+ /usr/include/strings.h /usr/include/libavutil/attributes.h \
  /usr/include/libavutil/macros.h /usr/include/libavutil/version.h \
  /usr/include/libavutil/avconfig.h /usr/include/libavutil/mem.h \
  /usr/include/libavutil/error.h /usr/include/libavutil/rational.h \

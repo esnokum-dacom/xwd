@@ -204,5 +204,11 @@ CMakeFiles/xwd.dir/src/main.cpp.o: /home/onu/dev/xwd/src/main.cpp \
  /usr/include/c++/14.2/bits/atomic_timed_wait.h \
  /usr/include/c++/14.2/bits/this_thread_sleep.h /usr/include/sys/time.h \
  /usr/include/semaphore.h /usr/include/bits/semaphore.h \
- /usr/include/c++/14.2/mutex /usr/include/c++/14.2/bits/unique_lock.h \
- /home/onu/dev/xwd/src/shm/shm_seg.hpp /usr/include/xcb/shm.h
+ /home/onu/dev/xwd/src/monitors.hpp /home/onu/dev/xwd/src/shm/shm_seg.hpp \
+ /usr/include/xcb/shm.h /usr/include/c++/14.2/unordered_map \
+ /usr/include/c++/14.2/bits/unordered_map.h \
+ /usr/include/c++/14.2/bits/hashtable.h \
+ /usr/include/c++/14.2/bits/hashtable_policy.h \
+ /usr/include/c++/14.2/bits/enable_special_members.h \
+ /usr/include/c++/14.2/bits/node_handle.h \
+ /usr/include/c++/14.2/bits/erase_if.h

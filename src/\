@@ -1,8 +1,0 @@
-#pragma once
-#include "xcb_pxf.hpp"
-#include <string>
-
-class Wallpaper_t {
-    public:
-	explicit Wallpaper(XcbContext &ctx) : ctx_(ctx) {};
-};

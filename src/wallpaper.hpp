@@ -9,6 +9,10 @@ class Wallpaper_t {
 	explicit Wallpaper_t(XcbContext &ctx) : ctx_(ctx) {}
 	void set(const std::string &path, ScaleMode mode = ScaleMode::Fill);
 
+	xcb_pixmap_t pixmap() const { return current_pix; }
+
+	void ensure_pixmap();
+
     private:
 	XcbContext &ctx_;
 	xcb_pixmap_t current_pix = 0;

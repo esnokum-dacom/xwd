@@ -4,13 +4,35 @@
 #include <poll.h>
 #include <cstring>
 #include <cstdlib>
+#include <cctype>
 #include <cerrno>
+#include <sstream>
 #include <stdexcept>
+#include <unordered_set>
 #include <vector>
 
 #include "ipc_server.hpp"
 #include "config.hpp"
 #include "wallpaper_v.hpp"
+#include "monitors.hpp"
+
+namespace {
+
+bool is_video_path(const std::string &path) {
+    size_t dot = path.find_last_of('.');
+    if (dot == std::string::npos) return false;
+
+    std::string ext = path.substr(dot + 1);
+    for (auto &c : ext) c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+
+    static const std::unordered_set<std::string> video_exts = {
+        "mp4", "m4v", "mkv", "webm", "mov", "avi", "flv", "wmv",
+        "mpg", "mpeg", "ts", "m2ts", "ogv", "gif"
+    };
+    return video_exts.count(ext) > 0;
+}
+
+} // namespace
 
 IpcServer::IpcServer(XcbContext &ctx, Wallpaper_t &wp, Config &cfg, std::string sock_path)
     : ctx_(ctx), wp_(wp), cfg_(cfg), sock_path_(std::move(sock_path)) {
@@ -18,29 +40,41 @@ IpcServer::IpcServer(XcbContext &ctx, Wallpaper_t &wp, Config &cfg, std::string 
 }
 
 IpcServer::~IpcServer() {
-    stop_video();
+    stop_video(-1);
     if (listen_fd_ >= 0) close(listen_fd_);
     unlink(sock_path_.c_str());
 }
 
-void IpcServer::stop_video() {
-    if (video_wp_) {
-        video_wp_->stop();
+std::vector<MonInfo> IpcServer::monitors() {
+    std::vector<MonInfo> mons = query_mons(ctx_.conn());
+    if (mons.empty()) {
+        mons.push_back({0, 0, static_cast<int16_t>(ctx_.screen()->width_in_pixels),
+                         static_cast<int16_t>(ctx_.screen()->height_in_pixels)});
     }
-    if (video_thread_.joinable()) {
-        video_thread_.join();
-    }
-    video_wp_.reset();
+    return mons;
 }
 
-void IpcServer::start_video(const std::string &path) {
-    stop_video();
+void IpcServer::stop_video(int mon_idx) {
+    if (mon_idx < 0) {
+        video_wps_.clear();
+        video_paths_.clear();
+        return;
+    }
+    video_wps_.erase(mon_idx);
+    video_paths_.erase(mon_idx);
+}
 
-    video_wp_ = std::make_unique<V_Wallpaper>(ctx_);
-    V_Wallpaper *raw = video_wp_.get();
-    video_thread_ = std::thread([raw, path]() {
-        raw->play(path);
-    });
+void IpcServer::start_video(int mon_idx, const std::string &path) {
+    std::vector<MonInfo> mons = monitors();
+    if (mon_idx < 0 || static_cast<size_t>(mon_idx) >= mons.size())
+        throw std::runtime_error("no such monitor index: " + std::to_string(mon_idx));
+
+    video_wps_.erase(mon_idx);
+
+    auto vw = std::make_unique<V_Wallpaper>(ctx_);
+    vw->play(path, mons[mon_idx], wp_.pixmap());
+    video_wps_[mon_idx] = std::move(vw);
+    video_paths_[mon_idx] = path;
 }
 
 void IpcServer::setup_socket() {
@@ -71,24 +105,60 @@ void IpcServer::apply(size_t idx) {
 
 std::string IpcServer::dispatch(const std::string &line) {
     if (line.rfind("SET ", 0) == 0) {
+        std::string path = line.substr(4);
         try {
-            wp_.set(line.substr(4), cfg_.mode);
+            stop_video(-1);
+
+            if (is_video_path(path)) {
+                wp_.ensure_pixmap();
+                std::vector<MonInfo> mons = monitors();
+                for (size_t i = 0; i < mons.size(); ++i)
+                    start_video(static_cast<int>(i), path);
+            } else {
+                wp_.set(path, cfg_.mode);
+            }
             return "OK\n";
         } catch (const std::exception &e) {
             return std::string("ERR ") + e.what() + "\n";
         }
     }
     if (line.rfind("VIDEO ", 0) == 0) {
-	try {
-	    start_video(line.substr(6));
-	    return "Ok, Started " + line.substr(6) + "\n";
-	} catch (const std::exception &e) {
-	    return std::string("ERR ") + e.what() + "\n";
-	}
+        std::istringstream iss(line.substr(6));
+        int mon_idx;
+        if (!(iss >> mon_idx))
+            return "ERR usage: VIDEO <monitor-index> <path>\n";
+        std::string path;
+        std::getline(iss, path);
+        size_t a = path.find_first_not_of(' ');
+        if (a == std::string::npos) return "ERR usage: VIDEO <monitor-index> <path>\n";
+        path = path.substr(a);
+
+        try {
+            start_video(mon_idx, path);
+            return "OK\n";
+        } catch (const std::exception &e) {
+            return std::string("ERR ") + e.what() + "\n";
+        }
     }
-    if (line == "STOP" || line.rfind("STOP ", 0) == 0) {
-	stop_video();
-	return "Stopped\n";
+    if (line == "STOP") {
+        stop_video(-1);
+        return "OK\n";
+    }
+    if (line.rfind("STOP ", 0) == 0) {
+        try {
+            stop_video(std::stoi(line.substr(5)));
+            return "OK\n";
+        } catch (const std::exception &e) {
+            return std::string("ERR ") + e.what() + "\n";
+        }
+    }
+    if (line == "MONITORS") {
+        std::vector<MonInfo> mons = monitors();
+        std::ostringstream oss;
+        for (size_t i = 0; i < mons.size(); ++i)
+            oss << i << ": " << mons[i].w << "x" << mons[i].h
+                << "+" << mons[i].x << "+" << mons[i].y << "\n";
+        return oss.str();
     }
     if (line == "NEXT") {
         if (cfg_.wallpapers.empty()) return "ERR no wallpapers configured\n";
