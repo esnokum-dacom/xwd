@@ -156,3 +156,36 @@ void Wallpaper_t::set(const std::string &path, ScaleMode mode) {
     if (current_pix) xcb_free_pixmap(ctx_.conn(), current_pix);
     current_pix = pmap;
 }
+
+void Wallpaper_t::set_region(const std::string &path, MonInfo mon, ScaleMode mode) {
+    if (!current_pix) throw std::runtime_error("set_region called before ensure_pixmap");
+
+    ImgBuf img = load_img(path);
+
+    xcb_visualtype_t *vis = find_vtype(ctx_.screen());
+    xcb_format_t *format = find_format(ctx_.conn(), ctx_.screen()->root_depth);
+    if (!vis || !format) throw std::runtime_error("Could not resolve the pixel format");
+
+    uint8_t byte_or = xcb_get_setup(ctx_.conn())->image_byte_order;
+    uint8_t byte_ppx = format->bits_per_pixel / 8;
+
+    xcb_gcontext_t gc = xcb_generate_id(ctx_.conn());
+    xcb_void_cookie_t gc_cookie = xcb_create_gc_checked(ctx_.conn(), gc, current_pix, 0, nullptr);
+    check_cookie(ctx_.conn(), gc_cookie, "create_gc");
+
+    ImgBuf scaled = (mode == ScaleMode::Stretch)
+        ? scale_near(img, mon.w, mon.h)
+        : scale_fill(img, mon.w, mon.h);
+
+    uint32_t mon_stride = ((mon.w * byte_ppx + format->scanline_pad / 8 - 1)
+                            / (format->scanline_pad / 8) * (format->scanline_pad / 8));
+
+    std::vector<uint8_t> packed = pack_pxs(scaled, vis, format, byte_or, mon_stride);
+    put_imgch(ctx_.conn(), current_pix, gc, packed, mon.w, mon.h, mon_stride,
+              ctx_.screen()->root_depth, mon.x, mon.y);
+
+    xcb_free_gc(ctx_.conn(), gc);
+
+    xcb_clear_area(ctx_.conn(), 1, ctx_.root(), mon.x, mon.y, mon.w, mon.h);
+    xcb_flush(ctx_.conn());
+}

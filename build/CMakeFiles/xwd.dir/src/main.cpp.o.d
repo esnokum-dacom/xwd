@@ -167,7 +167,8 @@ CMakeFiles/xwd.dir/src/main.cpp.o: /home/onu/dev/xwd/src/main.cpp \
  /usr/include/bits/uio_lim.h /usr/include/bits/uio-ext.h \
  /usr/include/xcb/xproto.h /usr/include/xcb/xcb.h \
  /usr/include/c++/14.2/cstdint /home/onu/dev/xwd/src/wallpaper.hpp \
- /home/onu/dev/xwd/src/config.hpp /home/onu/dev/xwd/src/ipc_server.hpp \
+ /home/onu/dev/xwd/src/config.hpp /home/onu/dev/xwd/src/monitors.hpp \
+ /home/onu/dev/xwd/src/ipc_server.hpp \
  /home/onu/dev/xwd/src/wallpaper_v.hpp /usr/include/c++/14.2/memory \
  /usr/include/c++/14.2/bits/stl_tempbuf.h \
  /usr/include/c++/14.2/bits/stl_raw_storage_iter.h \
@@ -204,8 +205,8 @@ CMakeFiles/xwd.dir/src/main.cpp.o: /home/onu/dev/xwd/src/main.cpp \
  /usr/include/c++/14.2/bits/atomic_timed_wait.h \
  /usr/include/c++/14.2/bits/this_thread_sleep.h /usr/include/sys/time.h \
  /usr/include/semaphore.h /usr/include/bits/semaphore.h \
- /home/onu/dev/xwd/src/monitors.hpp /home/onu/dev/xwd/src/shm/shm_seg.hpp \
- /usr/include/xcb/shm.h /usr/include/c++/14.2/unordered_map \
+ /home/onu/dev/xwd/src/shm/shm_seg.hpp /usr/include/xcb/shm.h \
+ /usr/include/c++/14.2/unordered_map \
  /usr/include/c++/14.2/bits/unordered_map.h \
  /usr/include/c++/14.2/bits/hashtable.h \
  /usr/include/c++/14.2/bits/hashtable_policy.h \

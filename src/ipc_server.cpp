@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <sys/socket.h>
 #include <sys/un.h>
 #include <unistd.h>
@@ -105,22 +106,56 @@ void IpcServer::apply(size_t idx) {
 
 std::string IpcServer::dispatch(const std::string &line) {
     if (line.rfind("SET ", 0) == 0) {
-        std::string path = line.substr(4);
-        try {
-            stop_video(-1);
-
-            if (is_video_path(path)) {
-                wp_.ensure_pixmap();
-                std::vector<MonInfo> mons = monitors();
-                for (size_t i = 0; i < mons.size(); ++i)
-                    start_video(static_cast<int>(i), path);
-            } else {
-                wp_.set(path, cfg_.mode);
-            }
-            return "OK\n";
-        } catch (const std::exception &e) {
-            return std::string("ERR ") + e.what() + "\n";
-        }
+	std::string rest = line.substr(4);
+	
+	int mon_idx = -1;
+	std::string path = rest;
+	
+	size_t sp = rest.find(' ');
+	std::string first_tok = (sp == std::string::npos) ? rest : rest.substr(0, sp);
+	bool is_num = !first_tok.empty() &&
+	              std::all_of(first_tok.begin(), first_tok.end(),
+	                          [](unsigned char c) { return std::isdigit(c); });
+	
+	if (is_num && sp != std::string::npos) {
+	    std::string tail = rest.substr(sp + 1);
+	    size_t a = tail.find_first_not_of(' ');
+	    if (a != std::string::npos) {
+	        mon_idx = std::stoi(first_tok);
+	        path = tail.substr(a);
+	    }
+	}
+	
+	try {
+	    if (mon_idx >= 0) {
+	        std::vector<MonInfo> mons = monitors();
+	        if (static_cast<size_t>(mon_idx) >= mons.size())
+	            return "ERR no such monitor index: " + std::to_string(mon_idx) + "\n";
+	
+	        stop_video(mon_idx);
+	
+	        if (is_video_path(path)) {
+	            wp_.ensure_pixmap();
+	            start_video(mon_idx, path);
+	        } else {
+	            wp_.ensure_pixmap();
+	            wp_.set_region(path, mons[mon_idx], cfg_.mode);
+	        }
+	    } else {
+	        stop_video(-1);
+	        if (is_video_path(path)) {
+	            wp_.ensure_pixmap();
+	            std::vector<MonInfo> mons = monitors();
+	            for (size_t i = 0; i < mons.size(); ++i)
+	                start_video(static_cast<int>(i), path);
+	        } else {
+	            wp_.set(path, cfg_.mode);
+	        }
+	    }
+	    return "OK\n";
+	} catch (const std::exception &e) {
+	    return std::string("ERR ") + e.what() + "\n";
+	}
     }
     if (line.rfind("VIDEO ", 0) == 0) {
         std::istringstream iss(line.substr(6));

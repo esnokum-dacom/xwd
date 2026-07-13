@@ -144,6 +144,6 @@ CMakeFiles/xwd.dir/src/wallpaper.cpp.o: \
  /usr/include/bits/pthread_stack_min-dynamic.h /usr/include/xcb/xproto.h \
  /usr/include/xcb/xcb.h /usr/include/xcb/xproto.h \
  /home/onu/dev/xwd/src/wallpaper.hpp /home/onu/dev/xwd/src/config.hpp \
- /home/onu/dev/xwd/src/xcb_context.hpp /home/onu/dev/xwd/src/image.hpp \
- /home/onu/dev/xwd/src/monitors.hpp /home/onu/dev/xwd/src/root_atoms.hpp \
+ /home/onu/dev/xwd/src/monitors.hpp /home/onu/dev/xwd/src/xcb_context.hpp \
+ /home/onu/dev/xwd/src/image.hpp /home/onu/dev/xwd/src/root_atoms.hpp \
  /home/onu/dev/xwd/src/xcb_pxf.hpp /home/onu/dev/xwd/src/xcb_check.hpp

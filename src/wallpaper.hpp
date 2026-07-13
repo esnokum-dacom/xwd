@@ -2,6 +2,7 @@
 #include <string>
 
 #include "config.hpp"
+#include "monitors.hpp"
 #include "xcb_context.hpp"
 
 class Wallpaper_t {
@@ -11,7 +12,10 @@ class Wallpaper_t {
 
 	xcb_pixmap_t pixmap() const { return current_pix; }
 
+
 	void ensure_pixmap();
+
+	void set_region(const std::string &path, MonInfo mon, ScaleMode mode = ScaleMode::Fill);
 
     private:
 	XcbContext &ctx_;
